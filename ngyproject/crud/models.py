@@ -1,6 +1,19 @@
 from django.db import models
 from django.core.validators import RegexValidator
 
+# カテゴリモデル
+class Category(models.Model):
+     name = models.CharField(max_length=20)
+ 
+     def __str__(self):
+         return self.name
+     
+     class Meta:
+        verbose_name = 'カテゴリ'
+        verbose_name_plural = 'カテゴリ'
+         
+
+# 店舗モデル
 class Shop(models.Model):
     name = models.CharField(max_length=20, verbose_name='店名')
     name_kana = models.CharField(max_length=20, verbose_name='店名かな')
@@ -18,6 +31,7 @@ class Shop(models.Model):
     closed_friday = models.BooleanField(verbose_name="金曜定休", default=False)
     closed_saturday = models.BooleanField(verbose_name="土曜定休", default=False)
     closed_sunday = models.BooleanField(verbose_name="日曜定休", default=False)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
