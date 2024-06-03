@@ -5,6 +5,7 @@ class Shop(models.Model):
     name_kana = models.CharField(max_length=20, verbose_name='店名かな')
     place = models.CharField(max_length=20, verbose_name='住所')
     description = models.CharField(max_length=200, verbose_name='詳細')
+    img = models.ImageField(blank=True, default='takosan.png')
 
     def __str__(self):
         return self.name
