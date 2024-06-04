@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Shop, Category, Area
+from .models import Shop, Category, Area, Price
+
+class PriceAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
 
 class AreaAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
@@ -11,6 +14,7 @@ class ShopAdmin(admin.ModelAdmin):
     list_display = ('name', 'place')
     search_fields = ('name','name_kana',)
 
+admin.site.register(Price, PriceAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Shop, ShopAdmin)
