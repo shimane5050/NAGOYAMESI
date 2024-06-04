@@ -12,6 +12,7 @@ class Price(models.Model):
         verbose_name = '価格帯'
         verbose_name_plural = '価格帯'
 
+
 # エリアモデル
 class Area(models.Model):
      name = models.CharField(max_length=20, verbose_name='エリア名')

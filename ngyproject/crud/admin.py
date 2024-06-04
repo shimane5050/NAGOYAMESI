@@ -15,6 +15,7 @@ class ShopAdmin(admin.ModelAdmin):
     search_fields = ('name','name_kana',)
     list_filter = ('category__name', 'area__name', 'price__name',)
 
+
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Category, CategoryAdmin)
