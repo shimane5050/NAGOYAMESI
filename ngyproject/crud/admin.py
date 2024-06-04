@@ -13,6 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class ShopAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'place', 'category', 'area', 'price', 'tel_number')
     search_fields = ('name','name_kana',)
+    list_filter = ('category__name', 'area__name', 'price__name',)
 
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Area, AreaAdmin)
