@@ -18,6 +18,10 @@ class ShopAdmin(admin.ModelAdmin):
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('id', 'username',)
 
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('title', 'shop', 'user', 'score',)
+    search_fields = ('shop__name', 'shop__name_kana', 'user__username',)
+    list_filter = ('shop__name', 'score', 'created_at')
 
 
 admin.site.register(Price, PriceAdmin)
@@ -25,7 +29,7 @@ admin.site.register(Area, AreaAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Review)
+admin.site.register(Review, ReviewAdmin)
 
 # Django管理サイト名変更
 admin.site.site_header = 'NAGOYAMESI管理サイト'

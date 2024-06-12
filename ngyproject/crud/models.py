@@ -99,12 +99,13 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(unique=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+    username = models.CharField(max_length=20, unique=True, verbose_name='ユーザー名')
+    email = models.EmailField(unique=True, verbose_name='メールアドレス')
+    date_joined = models.DateTimeField(default=timezone.now, verbose_name='登録日')
 
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True, verbose_name='管理画面へのアクセスを許可する')
+    is_active = models.BooleanField(default=True, verbose_name='このアカウントを利用可能にする')
+
 
     objects = CustomUserManager()
     USERNAME_FIELD = 'username'
@@ -114,8 +115,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
     
     class Meta:
-        verbose_name = 'ユーザー情報'
-        verbose_name_plural = 'ユーザー情報'
+        verbose_name = 'ユーザー'
+        verbose_name_plural = 'ユーザー'
 
 SCORE_CHOICES = [
     (1, '★'),
@@ -127,12 +128,12 @@ SCORE_CHOICES = [
 
 class Review(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, blank=False, verbose_name='店舗', default='1')
-    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
-    title = models.CharField(max_length=20, blank=False)
-    comment = models.TextField(verbose_name='レビューコメント', blank=False)
-    score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, verbose_name='ユーザー')
+    title = models.CharField(max_length=20, blank=False, verbose_name='タイトル')
+    comment = models.TextField(verbose_name='レビュー', blank=False)
+    score = models.PositiveSmallIntegerField(verbose_name='スコア', choices=SCORE_CHOICES, default='3')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='投稿日')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新日')
 
     class Meta:
         unique_together = ('shop', 'user')
@@ -143,6 +144,11 @@ class Review(models.Model):
     def get_percent(self):
         percent = round(self.score / 5 * 100)
         return percent
+    
+    class Meta:
+        verbose_name = 'レビュー'
+        verbose_name_plural = 'レビュー'
+
 
 
 
