@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
+from django.utils import timezone
+
 
 # 価格帯モデル
 class Price(models.Model):
@@ -66,3 +69,80 @@ class Shop(models.Model):
     class Meta:
         verbose_name = '店舗情報'
         verbose_name_plural = '店舗情報'
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email, password=None):
+        if not username:
+            raise ValueError('Users must have an username')
+        if not email:
+            raise ValueError("Users must have an email address")
+        
+        user = self.model(
+            username=username, 
+            email=self.normalize_email(email),
+            )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password):
+        user = self.create_user(
+            username=username,
+            email=self.normalize_email(email),
+            password=password,
+        )
+        user.is_staff=True
+        user.is_superuser=True
+        user.save(using=self._db)
+        return user
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(unique=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
+
+    objects = CustomUserManager()
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    def __str__(self):
+        return self.username
+    
+    class Meta:
+        verbose_name = 'ユーザー情報'
+        verbose_name_plural = 'ユーザー情報'
+
+SCORE_CHOICES = [
+    (1, '★'),
+    (2, '★★'),
+    (3, '★★★'),
+    (4, '★★★★'),
+    (5, '★★★★★'),
+]
+
+class Review(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, blank=False, verbose_name='店舗', default='1')
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=20, blank=False)
+    comment = models.TextField(verbose_name='レビューコメント', blank=False)
+    score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('shop', 'user')
+
+    def __str__(self):
+        return str(self.title)
+
+    def get_percent(self):
+        percent = round(self.score / 5 * 100)
+        return percent
+
+
+
