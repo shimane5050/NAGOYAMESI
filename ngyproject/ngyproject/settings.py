@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crud',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +133,5 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'top'
 LOGOUT_REDIRECT_URL = 'top'
 
+# ユーザー認証
 AUTH_USER_MODEL = 'crud.CustomUser'
