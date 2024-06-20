@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
@@ -43,3 +43,5 @@ class ShopListView(ListView):
 
         return render(request, 'crud/shop_list.html', context={"average":average})
     
+class ShopDetailView(DetailView):
+    model = Shop

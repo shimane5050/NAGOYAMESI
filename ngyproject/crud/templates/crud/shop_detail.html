@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}店舗詳細{% endblock %}
+{% block content %}
+<h1 class="">{{ shop.name }}</h1>
+<div>
+  <span>カテゴリ：{{ shop.category }}</span><span>    価格帯：{{ shop.price }}</span><span>    地区：{{ shop.place }}</span>
+</div>
+<div>
+  <img src="{{ shop.img.url }}" style="width: 500px; height:auto;">
+</div>
+<table>
+  <tr>
+    <th></th>
+    <td>{{ shop.description }}</td>
+  </tr>
+  <tr>
+    <th>営業時間</th>
+    <td>{{ shop.open_time }} - {{ shop.close_time }}</td>
+  </tr>
+  <tr>
+    <th>定休日</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>住所</th>
+    <td>{{ shop.place }}</td>
+  </tr>
+  <tr>
+    <th>電話番号</th>
+    <td>{{ shop.tel_number }}</td>
+  </tr>
+</table>
+
+<!--詳細文-->
+<!--営業時間-->
+<!--定休日-->
+<!--住所-->
+<!--電話番号-->
+
+
+<!--以降、削除予定-->
+<div style="display: flex;">
+  {% for shop in object_list %}
+  <div class="card" style="width: 18rem;">
+      <img src="{{ shop.img.url }}" class="card-img-top" alt="店舗画像">
+      <div class="card-body">
+        <h5 class="card-title">{{ shop.name }}</h5>
+        <hr>
+        <p class="card-text">評価：{{ average }}</p>
+        <p class="card-text">カテゴリ：{{ shop.category }}</p>
+        <p class="card-text">価格帯：{{ shop.price }}</p>
+        <p class="card-text">エリア：{{ shop.area }}</p>
+        <a href="#" class="btn btn-warning">詳しくみる</a>
+      </div>
+    </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}

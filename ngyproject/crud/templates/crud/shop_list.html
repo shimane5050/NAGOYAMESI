@@ -22,7 +22,7 @@
         <p class="card-text">カテゴリ：{{ shop.category }}</p>
         <p class="card-text">価格帯：{{ shop.price }}</p>
         <p class="card-text">エリア：{{ shop.area }}</p>
-        <a href="#" class="btn btn-warning">詳しくみる</a>
+        <a href="{% url 'shop-detail' pk=shop.pk %}" class="btn btn-warning">詳しくみる</a>
       </div>
     </div>
   {% endfor %}

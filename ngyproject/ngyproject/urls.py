@@ -26,6 +26,7 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name="login"),
     path('logout/', views.LogoutView.as_view(), name="logout"),
     path('crud/', views.ShopListView.as_view(), name='list'),
+    path('crud/shop-detail/<int:pk>/', views.ShopDetailView.as_view(), name='shop-detail')
 ]
 
 if settings.DEBUG:
